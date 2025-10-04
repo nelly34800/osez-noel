@@ -1,0 +1,8 @@
+# Image Nginx pour servir le front
+FROM nginx:alpine
+
+# Copier ton code front (HTML, CSS, JS) dans Nginx
+COPY ./frontend /usr/share/nginx/html
+
+# Exposer le port Nginx
+EXPOSE 80

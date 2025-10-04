@@ -1,0 +1,20 @@
+# Image PHP avec Apache
+FROM php:8.2-apache
+
+# Installer les extensions nécessaires
+RUN docker-php-ext-install mysqli pdo pdo_mysql
+
+# Installer Composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+
+# Copier le code backend
+COPY ./backend /var/www/html/
+
+# Activer mod_rewrite pour MVC
+RUN a2enmod rewrite
+
+# Définir le dossier de travail
+WORKDIR /var/www/html
+
+# Exposer le port Apache
+EXPOSE 80
