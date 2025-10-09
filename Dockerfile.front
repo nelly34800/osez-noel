@@ -4,5 +4,8 @@ FROM nginx:alpine
 # Copier ton code front (HTML, CSS, JS) dans Nginx
 COPY ./frontend /usr/share/nginx/html
 
+# Copier la config Nginx
+COPY ./config/nginx/default.conf /etc/nginx/conf.d/default.conf
+
 # Exposer le port Nginx
 EXPOSE 80
