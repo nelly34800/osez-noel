@@ -1,0 +1,25 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass": "sass src/scss/main.scss public/css/main.css",
+    "sass:watch": "sass src/scss/main.scss public/css/main.css --watch",
+    "copy:bootstrap": "cpx \"node_modules/bootstrap/dist/js/bootstrap.bundle.min.js\" public/js",
+    "copy:icons": "cpx \"node_modules/bootstrap-icons/font/**\" public/icons",
+    "postinstall": "npm run copy:icons && npm run copy:bootstrap"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.11.3"
+  },
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "sass": "^1.93.2"
+  }
+}
