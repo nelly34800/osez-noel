@@ -7,6 +7,9 @@
 // Bootstrap (compilé avec les variables)
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+// Styles spécifiques aux pages
+@import "creerCalendrier";
+
 html {
   position: relative;
   min-height: 100%;

@@ -1,0 +1,118 @@
+<div class="scene text-center text-white">
+  <div class="scene-content">
+    <h1>Créer un calendrier</h1>
+  </div>
+</div>
+
+<div class="container text-center p-4">
+  <div class="mb-3">
+      <label for="name" class="form-label">Donner un nom à votre calendrier</label>
+      <input type="text" id="name" placeholder="votre prénom" />
+        <div class="invalid-feedback">
+          Le nom du calendrier est requis
+        </div>
+  </div>
+  <div class="mb-3">
+    <label for="bgSelect" class="form-label">choisir un fond prédéfini : </label>
+    <select id="bgSelect">
+      <option value="">-- Choisir --</option>
+      <option value="flocon">Flocons</option>
+      <option value="stars">Étoiles</option>
+      <option value="neige">neige</option>
+      <option value="decor2">couronne</option>
+      <option value="etoiles">guirlande</option>
+      <option value="multi">lumière</option>
+      <option value="christmas">christmas</option>
+      <option value="boules">boules</option>
+      <option value="boules2">boules géantes</option>
+    </select>
+  </div>
+  <div class="mb-3" id="boxColorSection">
+    <label class="form-label">Palette Boites : cliquer sur les boutons pour choisir vos couleurs de boites</label>
+    <div id="boxColors">
+      <input type="color" class="boxColor" value="#830000">
+      <input type="color" class="boxColor" value="#FFFFFF">
+      <input type="color" class="boxColor" value="#BD8F8F">
+    </div>
+    <div class="mt-2">
+      <button class="btn btn-outline-primary" id="AddColor">ajouter une couleur</button>
+      <button class="btn btn-secondary"id="DeleteColor">enlever une couleur</button>
+      <button class="btn btn-outline-primary" id="emptyBox">boites transparentes</button>
+    </div>
+  </div>
+  <div class="mb-3">
+  <label class="form-label">
+    <h2>Option motif :</h2>
+    Vous pouvez choisir un ou plusieurs motifs<br>
+    pour vos cases de calendrier<br>
+    (Cliquez sur les boutons ci-dessous)
+  </label>
+
+  <div id="iconsButtons" class="d-flex flex-wrap gap-2 justify-content-center">
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-star-fill" title="Étoile">
+      <i class="bi bi-star-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-snow" title="Flocon">
+      <i class="bi bi-snow"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-gift-fill" title="Cadeau">
+      <i class="bi bi-gift-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-heart-fill" title="Cœur">
+      <i class="bi bi-heart-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-moon-stars-fill" title="Lune">
+      <i class="bi bi-moon-stars-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-tree-fill" title="Sapin">
+      <i class="bi bi-tree-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-bell-fill" title="Cloche">
+      <i class="bi bi-bell-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-lightning-fill" title="Éclair">
+      <i class="bi bi-lightning-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-cup-hot-fill" title="Tasse">
+      <i class="bi bi-cup-hot-fill"></i>
+    </button>
+    <button type="button" class="btn btn-outline-light icon-btn" data-icon="bi-magic" title="Magie">
+      <i class="bi bi-magic"></i>
+    </button>
+  </div>
+</div>
+  <div class="mb-3" id="patternColorSection">
+    <label class="form-label">Palette Motifs des boites : choisir vos couleurs de motifs de boites </label>
+    <div id="patternColors">
+      <input type="color" class="patternColor" value="#FFFFFF">
+      <input type="color" class="patternColor" value="#BD8F8F">
+      <input type="color" class="patternColor" value="#830000">
+    </div>
+    <div class="mt-2">
+      <button class="btn btn-outline-primary" id="AddColorPattern">ajouter une couleur</button>
+      <button class="btn btn-secondary"id="DeleteColorPattern">enlever une couleur</button>
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Disposition : </label>
+    <select id="layoutSelect">
+      <option value="range">Rangées</option>
+      <option value="aleatoire">Aléatoire</option>
+    </select>
+  </div>
+  <div class="mb-3 text-center">
+     <label class="form-label"><h2>Aperçu du calendrier</h2></label>
+  <div id="previewContainer">
+    <!-- aperçu du calendrier -->
+    <div id="previewBackground" class="calendar-preview">
+      <div id="previewBoxes" class="boxes-preview">
+        
+      </div>
+    </div> 
+  </div>
+</div>
+
+  <div class="mb-3">
+    <button class="btn btn-primary" id="generateBtn">Générer</button>
+  </div>
+</div>
