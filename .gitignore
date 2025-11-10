@@ -1,5 +1,5 @@
 # Fichiers d'environnement
-.env.dev
+.env
 .env.prod
 
 # Dossiers et volumes Docker
