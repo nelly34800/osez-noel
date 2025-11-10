@@ -11871,8 +11871,8 @@ textarea.form-control-lg {
 }
 
 .calendar-preview {
-  width: 300px;
-  height: 200px;
+  width: 100%;
+  height: 500px;
   border-radius: 10px;
   background-color: #eee;
   background-size: cover;
@@ -11887,17 +11887,14 @@ textarea.form-control-lg {
 
 .boxes-preview {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  width: 90%;
-  height: 90%;
+  gap: 10px;
+  width: 95%;
+  height: 95%;
 }
 
 .boxes-preview .box {
-  width: 40px;
-  height: 40px;
   font-size: 10px;
-  margin: 20px;
+  margin: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -11905,6 +11902,24 @@ textarea.form-control-lg {
   position: relative;
 }
 
+@media screen and (max-width: 680px) {
+  .boxes-preview {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .boxes-preview .box {
+    width: 40px;
+    height: 40px;
+  }
+}
+@media screen and (min-width: 681px) {
+  .boxes-preview {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .boxes-preview .box {
+    width: 60px;
+    height: 60px;
+  }
+}
 .boxes-preview .box::after {
   content: attr(data-number);
   position: absolute;

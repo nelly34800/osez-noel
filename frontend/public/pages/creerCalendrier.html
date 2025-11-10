@@ -7,7 +7,7 @@
 <div class="container text-center p-4">
   <div class="mb-3">
       <label for="name" class="form-label">Donner un nom à votre calendrier</label>
-      <input type="text" id="name" placeholder="votre prénom" />
+      <input type="text" id="name" placeholder="nom de votre calendrier" />
         <div class="invalid-feedback">
           Le nom du calendrier est requis
         </div>
@@ -26,7 +26,10 @@
       <option value="boules">boules</option>
       <option value="boules2">boules géantes</option>
     </select>
+    <label class="form-label" for="file">ou télécharger votre image</label>
+     <input type="file" name="file" id="file" class="form-control">
   </div>
+
   <div class="mb-3" id="boxColorSection">
     <label class="form-label">Palette Boites : cliquer sur les boutons pour choisir vos couleurs de boites</label>
     <div id="boxColors">
@@ -106,13 +109,12 @@
     <!-- aperçu du calendrier -->
     <div id="previewBackground" class="calendar-preview">
       <div id="previewBoxes" class="boxes-preview">
-        
       </div>
     </div> 
   </div>
 </div>
 
   <div class="mb-3">
-    <button class="btn btn-primary" id="generateBtn">Générer</button>
+    <button class="btn btn-primary" id="generateBtn">Choisir les surprises</button>
   </div>
 </div>

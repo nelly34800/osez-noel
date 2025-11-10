@@ -1,6 +1,7 @@
 // Récupération des éléments
 const nameInput = document.getElementById("name");
 const bgSelect = document.getElementById("bgSelect");
+const fileInput = document.getElementById("file");
 const previewBackground = document.getElementById("previewBackground");
 const generateBtn = document.getElementById("generateBtn");
 const addColorBtn = document.getElementById("AddColor");
@@ -18,7 +19,6 @@ const layoutSelect = document.getElementById("layoutSelect");
 generateBtn.disabled = true;
 
 // Vérifie le champ du nom 
-//écoute des événements
 nameInput.addEventListener("keyup", validateForm);
 // écoute changement de disposition
 layoutSelect.addEventListener("change", updateBoxesPreview);
@@ -51,34 +51,58 @@ function validateRequired(input){
   }
 }
 
-// Change le fond en fonction du choix
+
+// fonction pour changer le fond avec effet de fondu
+function changeBackground(url) {
+  previewBackground.style.opacity = "0"; // baisse l'opacité
+
+  setTimeout(() => {
+    if (url) {
+      previewBackground.style.backgroundImage = `url('${url}')`;
+    } else {
+      previewBackground.style.backgroundImage = "none";
+    }
+    previewBackground.style.opacity = "1"; // remet l'opacité
+  }, 300);
+}
+
+// écoute des fonds prédéfinis
 bgSelect.addEventListener("change", () => {
   const value = bgSelect.value;
   let bgUrl = "";
 
-  if (value === "flocon") bgUrl = "/img/flocons.png";
-  if (value === "stars") bgUrl = "/img/stars.jpg";
-  if (value === "neige") bgUrl = "/img/neige.jpg";
-  if (value === "decor2") bgUrl = "/img/decor2.jpg";
-  if (value === "etoiles") bgUrl = "/img/etoiles.jpg";
-  if (value === "multi") bgUrl = "/img/multi.jpg";
-  if (value === "christmas") bgUrl = "/img/christmas.png";
-  if (value === "boules") bgUrl = "/img/boules.jpg";
-  if (value === "boules2") bgUrl = "/img/boules2.jpg";
-
-  // Effet fondu: baisse l'opacité avant de changer l'image
-  previewBackground.style.opacity = "0";
-
-  // attend que l'effet soit presque fini (300ms)
-  setTimeout(() => {
-    if (bgUrl) {
-      previewBackground.style.backgroundImage = `url('${bgUrl}')`;
-  } else {
-    previewBackground.style.backgroundImage = "none";
+  switch (value) {
+    case "flocon": bgUrl = "/img/flocons.png"; break;
+    case "stars": bgUrl = "/img/stars.jpg"; break;
+    case "neige": bgUrl = "/img/neige.jpg"; break;
+    case "decor2": bgUrl = "/img/decor2.jpg"; break;
+    case "etoiles": bgUrl = "/img/etoiles.jpg"; break;
+    case "multi": bgUrl = "/img/multi.jpg"; break;
+    case "christmas": bgUrl = "/img/christmas.png"; break;
+    case "boules": bgUrl = "/img/boules.jpg"; break;
+    case "boules2": bgUrl = "/img/boules2.jpg"; break;
+    default: bgUrl = ""; break;
   }
-    // remet l'opacité à 1 (le fondu s’inverse)
-    previewBackground.style.opacity = "1";
-  }, 300);
+
+  if (bgUrl) {
+    // réinitialise l'input file pour éviter conflit
+    fileInput.value = "";
+    changeBackground(bgUrl);
+  }
+});
+
+// écoute du téléchargement d'image
+fileInput.addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    changeBackground(event.target.result);
+    // réinitialise le select pour éviter conflit
+    bgSelect.value = "";
+  }
+  reader.readAsDataURL(file);
 });
 
 //mode transparent est faux par défaut
@@ -93,7 +117,7 @@ iconsButtonsContainer.addEventListener("click", (e) => {
 
   const iconClass = btn.dataset.icon;
 
-  // Toggle de sélection
+  // Toggle sélection icones
   if (selectedIcons.includes(iconClass)) {
     selectedIcons = selectedIcons.filter(icon => icon !== iconClass);
     btn.classList.remove("btn-primary");
@@ -113,12 +137,21 @@ function updateBoxesPreview() {
   const colors = document.querySelectorAll(".boxColor");
   const patternColors = document.querySelectorAll(".patternColor");
 
-  const layout = layoutSelect.value;  // disposition boites
-  const boxSize = 40; 
-  const gap = 10; // espace min entre boîtes
+  const layout = layoutSelect.value;
+  // disposition boites, taille des boîtes selon la largeur d'écran
+  let boxSize;
+  let gap;
+
+if (window.innerWidth <= 680) {
+  boxSize = 40;
+  gap = 8;
+} else {
+  boxSize = 60;
+  gap = 10;
+}
   const positions = []; // stocke les positions
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 24; i++) {
     const box = document.createElement("div");
     box.classList.add("box");
     box.setAttribute("data-number", i);
@@ -246,3 +279,19 @@ patternColorsContainer.addEventListener("input", updateBoxesPreview);
 
 // Initialisation
 updateBoxesPreview();
+
+generateBtn.addEventListener("click", () => {
+  const config = {
+    colors: Array.from(document.querySelectorAll(".boxColor")).map(c => c.value),
+    patternColors: Array.from(document.querySelectorAll(".patternColor")).map(c => c.value),
+    icons: selectedIcons,
+    transparentMode,
+    layout: layoutSelect.value,
+    name: nameInput.value
+  };
+
+  localStorage.setItem("calendarConfig", JSON.stringify(config));
+
+  // Redirection classique vers la page calendrier
+window.location.href = "pages/calendrier.html";
+});
