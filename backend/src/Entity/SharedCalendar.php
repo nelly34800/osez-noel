@@ -2,46 +2,50 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SharedCalendarRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SharedCalendarRepository::class)]
-#[ApiResource]
 class SharedCalendar
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
+    private ?string $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $sharedWithEmail = null;
 
     #[ORM\Column(length: 255)]
     private ?string $token = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'yes')]
+    #[ORM\ManyToOne(inversedBy: 'sharedCalendars')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?calendar $calendar = null;
+    private ?Calendar $calendar = null;
 
-    public function getId(): ?int
+     public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
+
+    public function getId(): ?string
     {
         return $this->id;
     }
 
     public function getSharedWithEmail(): ?string
     {
-        return $this->shared_with_email;
+        return $this->sharedWithEmail;
     }
 
-    public function setSharedWithEmail(?string $shared_with_email): static
+    public function setSharedWithEmail(string $sharedWithEmail): static
     {
-        $this->shared_with_email = $shared_with_email;
-
+        $this->sharedWithEmail = $sharedWithEmail;
         return $this;
     }
 
@@ -53,7 +57,6 @@ class SharedCalendar
     public function setToken(string $token): static
     {
         $this->token = $token;
-
         return $this;
     }
 
@@ -65,31 +68,17 @@ class SharedCalendar
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
-    public function getCalendar(): ?int
+    public function getCalendar(): ?Calendar
     {
         return $this->calendar;
     }
 
-    public function setCalendar(int $calendar): static
+    public function setCalendar(?Calendar $calendar): static
     {
         $this->calendar = $calendar;
-
-        return $this;
-    }
-
-    public function getSharedWidthEmail(): ?string
-    {
-        return $this->shared_width_email;
-    }
-
-    public function setSharedWidthEmail(string $shared_width_email): static
-    {
-        $this->shared_width_email = $shared_width_email;
-
         return $this;
     }
 }

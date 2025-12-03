@@ -2,20 +2,21 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CalendarRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\SharedCalendar;
 
 #[ORM\Entity(repositoryClass: CalendarRepository::class)]
-#[ApiResource]
 class Calendar
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: "uuid")]
+    #[ORM\GeneratedValue(strategy: "CUSTOM")]
+    #[ORM\CustomIdGenerator(class: "doctrine.uuid_generator")]
+    private ?string $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $title = null;
@@ -23,31 +24,29 @@ class Calendar
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
-    #[ORM\Column]
+    #[ORM\Column (type: 'json')]
     private array $settings = [];
 
-    #[ORM\Column]
+    #[ORM\Column (type: 'json')]
     private array $days = [];
 
     #[ORM\Column]
-    private ?\DateTime $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'calendars')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    /**
-     * @var Collection<int, SharedCalendar>
-     */
     #[ORM\OneToMany(targetEntity: SharedCalendar::class, mappedBy: 'calendar', orphanRemoval: true)]
-    private Collection $yes;
+    private Collection $sharedCalendars;
 
     public function __construct()
     {
-        $this->yes = new ArrayCollection();
+        $this->sharedCalendars = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -60,7 +59,6 @@ class Calendar
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -72,7 +70,6 @@ class Calendar
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
-
         return $this;
     }
 
@@ -84,7 +81,6 @@ class Calendar
     public function setSettings(array $settings): static
     {
         $this->settings = $settings;
-
         return $this;
     }
 
@@ -96,19 +92,17 @@ class Calendar
     public function setDays(array $days): static
     {
         $this->days = $days;
-
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
-
         return $this;
     }
 
@@ -120,34 +114,32 @@ class Calendar
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
     /**
      * @return Collection<int, SharedCalendar>
      */
-    public function getYes(): Collection
+    public function getSharedCalendars(): Collection
     {
-        return $this->yes;
+        return $this->sharedCalendars;
     }
 
-    public function addYe(SharedCalendar $ye): static
+    public function addSharedCalendar(SharedCalendar $sharedCalendar): static
     {
-        if (!$this->yes->contains($ye)) {
-            $this->yes->add($ye);
-            $ye->setCalendar($this);
+        if (!$this->sharedCalendars->contains($sharedCalendar)) {
+            $this->sharedCalendars->add($sharedCalendar);
+            $sharedCalendar->setCalendar($this);
         }
 
         return $this;
     }
 
-    public function removeYe(SharedCalendar $ye): static
+    public function removeSharedCalendar(SharedCalendar $sharedCalendar): static
     {
-        if ($this->yes->removeElement($ye)) {
-            // set the owning side to null (unless already changed)
-            if ($ye->getCalendar() === $this) {
-                $ye->setCalendar(null);
+        if ($this->sharedCalendars->removeElement($sharedCalendar)) {
+            if ($sharedCalendar->getCalendar() === $this) {
+                $sharedCalendar->setCalendar(null);
             }
         }
 
